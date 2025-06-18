@@ -1,6 +1,4 @@
-## Project info
-Welcome to # **VOLT VITA**
-
+## **VOLT VITA**
 Follow these steps:
 
 ```sh
