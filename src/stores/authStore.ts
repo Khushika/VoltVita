@@ -1,4 +1,3 @@
-
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { supabase } from '../integrations/supabase/client';
@@ -92,7 +91,14 @@ export const useAuthStore = create<AuthState>()(
         }
         
         set({ isLoading: false });
-        return () => subscription.unsubscribe();
+        
+        // Store the cleanup function but don't return it
+        // The subscription will be cleaned up when the component unmounts
+        if (typeof window !== 'undefined') {
+          window.addEventListener('beforeunload', () => {
+            subscription.unsubscribe();
+          });
+        }
       },
 
       fetchProfile: async () => {
