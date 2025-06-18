@@ -1,4 +1,3 @@
-
 export interface User {
   id: string;
   email: string;
@@ -6,6 +5,42 @@ export interface User {
   phone?: string;
   created_at: string;
   updated_at: string;
+}
+
+export interface Profile {
+  id: string;
+  full_name: string | null;
+  email: string | null;
+  phone: string | null;
+  avatar_url: string | null;
+  two_factor_enabled: boolean;
+  email_verified: boolean;
+  phone_verified: boolean;
+  account_locked: boolean;
+  failed_login_attempts: number;
+  last_login_attempt: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface SecurityAuditLog {
+  id: string;
+  user_id: string | null;
+  event_type: string;
+  event_details: any;
+  ip_address: string | null;
+  user_agent: string | null;
+  created_at: string;
+}
+
+export interface PhoneVerification {
+  id: string;
+  user_id: string | null;
+  phone_number: string;
+  verification_code: string;
+  expires_at: string;
+  verified: boolean | null;
+  created_at: string | null;
 }
 
 export interface Appliance {

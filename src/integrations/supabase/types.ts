@@ -9,13 +9,129 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      phone_verifications: {
+        Row: {
+          created_at: string | null
+          expires_at: string
+          id: string
+          phone_number: string
+          user_id: string | null
+          verification_code: string
+          verified: boolean | null
+        }
+        Insert: {
+          created_at?: string | null
+          expires_at: string
+          id?: string
+          phone_number: string
+          user_id?: string | null
+          verification_code: string
+          verified?: boolean | null
+        }
+        Update: {
+          created_at?: string | null
+          expires_at?: string
+          id?: string
+          phone_number?: string
+          user_id?: string | null
+          verification_code?: string
+          verified?: boolean | null
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          account_locked: boolean | null
+          avatar_url: string | null
+          created_at: string | null
+          email: string | null
+          email_verified: boolean | null
+          failed_login_attempts: number | null
+          full_name: string | null
+          id: string
+          last_login_attempt: string | null
+          phone: string | null
+          phone_verified: boolean | null
+          two_factor_enabled: boolean | null
+          updated_at: string | null
+        }
+        Insert: {
+          account_locked?: boolean | null
+          avatar_url?: string | null
+          created_at?: string | null
+          email?: string | null
+          email_verified?: boolean | null
+          failed_login_attempts?: number | null
+          full_name?: string | null
+          id: string
+          last_login_attempt?: string | null
+          phone?: string | null
+          phone_verified?: boolean | null
+          two_factor_enabled?: boolean | null
+          updated_at?: string | null
+        }
+        Update: {
+          account_locked?: boolean | null
+          avatar_url?: string | null
+          created_at?: string | null
+          email?: string | null
+          email_verified?: boolean | null
+          failed_login_attempts?: number | null
+          full_name?: string | null
+          id?: string
+          last_login_attempt?: string | null
+          phone?: string | null
+          phone_verified?: boolean | null
+          two_factor_enabled?: boolean | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      security_audit_log: {
+        Row: {
+          created_at: string | null
+          event_details: Json | null
+          event_type: string
+          id: string
+          ip_address: unknown | null
+          user_agent: string | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          event_details?: Json | null
+          event_type: string
+          id?: string
+          ip_address?: unknown | null
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          event_details?: Json | null
+          event_type?: string
+          id?: string
+          ip_address?: unknown | null
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      log_security_event: {
+        Args: {
+          p_user_id: string
+          p_event_type: string
+          p_event_details?: Json
+          p_ip_address?: unknown
+          p_user_agent?: string
+        }
+        Returns: undefined
+      }
     }
     Enums: {
       [_ in never]: never

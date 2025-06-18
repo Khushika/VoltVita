@@ -3,15 +3,26 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../ui/button';
 import { useAuthStore } from '../../stores/authStore';
-import { Home, User, Bell, Search } from 'lucide-react';
+import { Home, User, Bell, Search, Settings } from 'lucide-react';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '../ui/dropdown-menu';
+import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 
 const Navbar = () => {
-  const { user, logout, isAuthenticated } = useAuthStore();
+  const { user, profile, logout, isAuthenticated } = useAuthStore();
   const navigate = useNavigate();
 
-  const handleLogout = () => {
-    logout();
+  const handleLogout = async () => {
+    await logout();
     navigate('/');
+  };
+
+  const getInitials = (name: string) => {
+    return name
+      .split(' ')
+      .map(word => word[0])
+      .join('')
+      .toUpperCase()
+      .slice(0, 2);
   };
 
   if (!isAuthenticated) return null;
@@ -51,27 +62,39 @@ const Navbar = () => {
               </span>
             </Button>
 
-            <div className="flex items-center space-x-3">
-              <div className="hidden sm:block text-right">
-                <p className="text-sm font-medium text-gray-900">{user?.full_name}</p>
-                <p className="text-xs text-gray-500">{user?.email}</p>
-              </div>
-              
-              <Button variant="ghost" size="sm" className="p-1">
-                <div className="w-8 h-8 bg-gradient-to-r from-primary to-secondary rounded-full flex items-center justify-center">
-                  <User size={16} className="text-white" />
-                </div>
-              </Button>
-            </div>
-
-            <Button
-              onClick={handleLogout}
-              variant="outline"
-              size="sm"
-              className="hidden sm:flex hover:bg-destructive hover:text-white transition-colors"
-            >
-              Logout
-            </Button>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" className="flex items-center space-x-3 hover:bg-primary/10">
+                  <div className="hidden sm:block text-right">
+                    <p className="text-sm font-medium text-gray-900">
+                      {profile?.full_name || user?.email}
+                    </p>
+                    <p className="text-xs text-gray-500">{user?.email}</p>
+                  </div>
+                  
+                  <Avatar className="h-8 w-8">
+                    <AvatarImage src={profile?.avatar_url || ''} />
+                    <AvatarFallback>
+                      {profile?.full_name ? getInitials(profile.full_name) : 'U'}
+                    </AvatarFallback>
+                  </Avatar>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-56">
+                <DropdownMenuItem onClick={() => navigate('/profile')}>
+                  <User className="mr-2 h-4 w-4" />
+                  <span>Profile Settings</span>
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => navigate('/profile')}>
+                  <Settings className="mr-2 h-4 w-4" />
+                  <span>Account Settings</span>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={handleLogout}>
+                  <span>Sign out</span>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </div>
       </div>
